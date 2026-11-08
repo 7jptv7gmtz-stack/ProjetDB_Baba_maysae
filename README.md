@@ -113,3 +113,8 @@ Les règles et les données doivent être cohérentes et adaptées à la concept
 Site officiel du Paris Saint-Germain : https://www.psg.fr/
 
 Le site sert de référence générale pour le domaine du football professionnel. Le modèle proposé est pédagogique et ne prétend pas représenter intégralement le système d'information du club.
+## 3. Modèle Logique de Données (MLD)
+
+Le MLD est obtenu automatiquement à partir du MCD avec le logiciel Looping.
+
+![MLD du club de football](MLD_Club_Football.png)

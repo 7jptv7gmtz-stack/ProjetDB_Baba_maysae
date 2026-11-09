@@ -118,3 +118,27 @@ Le site sert de référence générale pour le domaine du football professionnel
 Le MLD est obtenu automatiquement à partir du MCD avec le logiciel Looping.
 
 ![MLD du club de football](MLD_Club_Football.png)
+## 4. Scénarios d'utilisation
+
+La base de données répond aux besoins du directeur sportif d'un club de football professionnel.
+
+Les scénarios développés sont :
+
+1. **Gestion des joueurs :** consulter les joueurs et leurs salaires mensuels.
+2. **Suivi des matchs :** afficher les résultats et les équipes participantes.
+3. **Statistiques :** calculer le nombre total de buts marqués par chaque joueur.
+4. **Organisation des entraînements :** consulter les séances, les équipes et les entraîneurs.
+5. **Analyse des contrats :** identifier les joueurs dont le salaire dépasse le salaire moyen.
+
+## 5. Analyse du plan d'exécution
+
+La commande `EXPLAIN` a été utilisée pour analyser la cinquième requête.
+
+Le plan d'exécution montre :
+
+- **Nested loop inner join :** MySQL réalise une jointure entre JOUEUR et CONTRAT.
+- **Table scan :** MySQL parcourt les contrats pour filtrer les salaires.
+- **Aggregate AVG :** la sous-requête calcule le salaire moyen une seule fois.
+- **Index lookup :** MySQL utilise la clé primaire de JOUEUR pour retrouver les joueurs.
+
+Ce plan permet de comprendre comment MySQL organise l'exécution de la requête.

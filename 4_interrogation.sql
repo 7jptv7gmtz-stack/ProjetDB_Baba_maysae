@@ -54,3 +54,17 @@ INNER JOIN equipe e
     ON s.id_equipe = e.id_equipe
 INNER JOIN entraineur en
     ON s.id_entraineur = en.id_entraineur;
+-- SCENARIO 5 : Identifier les joueurs ayant un salaire
+-- supérieur au salaire moyen des joueurs.
+
+SELECT
+    j.nom_joueur,
+    j.prenom_joueur,
+    c.salaire_mensuel
+FROM joueur j
+INNER JOIN contrat c
+    ON j.id_joueur = c.id_joueur
+WHERE c.salaire_mensuel > (
+    SELECT AVG(salaire_mensuel)
+    FROM contrat
+);

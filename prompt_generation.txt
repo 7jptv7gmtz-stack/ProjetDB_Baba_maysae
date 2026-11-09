@@ -1,1 +1,14 @@
+Génère un script SQL complet pour insérer des données fictives et cohérentes dans une base de données de gestion d'un club de football professionnel appelée `club_football`.
 
+Le script doit respecter les tables, les colonnes, les clés primaires et les clés étrangères définies dans le fichier `1_creation.sql`.
+
+Consignes :
+- Générer des données réalistes pour toutes les tables.
+- Respecter les relations entre les joueurs, les équipes, les entraîneurs, les contrats, les saisons, les compétitions, les matchs et les séances d'entraînement.
+- Respecter l'ordre d'insertion afin d'éviter les erreurs de clés étrangères.
+- Utiliser des dates et des valeurs cohérentes.
+- Prévoir suffisamment de données pour permettre des requêtes SQL variées.
+- Ne pas insérer de valeurs qui violent les contraintes d'intégrité.
+- Utiliser des instructions `INSERT INTO`.
+- Commencer par `USE club_football;`.
+- Fournir uniquement le script SQL, avec des commentaires pour identifier chaque table.

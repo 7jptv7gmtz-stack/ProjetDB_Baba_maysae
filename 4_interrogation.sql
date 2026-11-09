@@ -64,6 +64,11 @@ SELECT
 FROM joueur j
 INNER JOIN contrat c
     ON j.id_joueur = c.id_joueur
+    -- ANALYSE DU PLAN D'EXECUTION
+-- MySQL utilise une jointure Nested Loop entre JOUEUR et CONTRAT.
+-- Il parcourt la table CONTRAT pour filtrer les salaires.
+-- La sous-requête calcule le salaire moyen une seule fois grâce à AVG.
+-- Enfin, MySQL utilise la clé primaire de JOUEUR pour retrouver les joueurs.
 WHERE c.salaire_mensuel > (
     SELECT AVG(salaire_mensuel)
     FROM contrat

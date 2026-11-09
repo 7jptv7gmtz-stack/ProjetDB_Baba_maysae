@@ -1,14 +1,109 @@
-Génère un script SQL complet pour insérer des données fictives et cohérentes dans une base de données de gestion d'un club de football professionnel appelée `club_football`.
+# PROMPT DE GÉNÉRATION DES DONNÉES SQL
 
-Le script doit respecter les tables, les colonnes, les clés primaires et les clés étrangères définies dans le fichier `1_creation.sql`.
+Génère un script SQL complet pour alimenter une base de données de gestion d'un club de football professionnel appelée `club_football`.
 
-Consignes :
-- Générer des données réalistes pour toutes les tables.
-- Respecter les relations entre les joueurs, les équipes, les entraîneurs, les contrats, les saisons, les compétitions, les matchs et les séances d'entraînement.
-- Respecter l'ordre d'insertion afin d'éviter les erreurs de clés étrangères.
-- Utiliser des dates et des valeurs cohérentes.
-- Prévoir suffisamment de données pour permettre des requêtes SQL variées.
-- Ne pas insérer de valeurs qui violent les contraintes d'intégrité.
-- Utiliser des instructions `INSERT INTO`.
+Le script doit respecter exactement la structure relationnelle définie ci-dessous.
+
+## 1. Tables et clés primaires
+
+- JOUEUR : `id_joueur` (PK). Colonnes : nationalite, poste, pied_prefere, nom_joueur, prenom_joueur, date_naissance.
+- EQUIPE : `id_equipe` (PK). Colonnes : nom_equipe, categorie.
+- ENTRAINEUR : `id_entraineur` (PK). Colonnes : nom_entraineur, prenom_entraineur, specialite.
+- TERRAIN : `id_terrain` (PK). Colonnes : adresse, nom_terrain.
+- SAISON : `id_saison` (PK). Colonnes : libelle_saison, date_debut, date_fin.
+- COMPETITION : `id_competition` (PK). Colonnes : nom_competition, type_competition.
+- CONTRAT : `id_contrat` (PK). Colonnes : date_debut_contrat, date_fin_contrat, salaire_mensuel, id_joueur (FK).
+- APPARTENIR : clé primaire composée (`id_joueur`, `id_equipe`). Colonnes : numero_maillot.
+- ENCADRER : clé primaire composée (`id_entraineur`, `id_equipe`). Colonnes : date_debut_affectation, date_fin_affectation.
+- CONCERNER : clé primaire composée (`id_equipe`, `id_saison`).
+- PARTICIPER_COMPETITION : clé primaire composée (`id_equipe`, `id_competition`).
+- MATCH_FOOTBALL : `id_match` (PK). Colonnes : date_match, heure_match, score_domicile, score_exterieur, statut_match, id_equipe (FK), id_competition (FK), id_terrain (FK).
+- A_DOMICILE : clé primaire composée (`id_equipe`, `id_match`).
+- PARTICIPATION : `id_participation` (PK). Colonnes : temps_jeu, nombre_buts, cartons_jaunes, id_match (FK), id_joueur (FK).
+- SEANCE_ENTRAINEMENT : `id_seance` (PK). Colonnes : date_seance, heure_debut, duree_minutes, objectif, id_terrain (FK), id_entraineur (FK), id_equipe (FK).
+
+## 2. Nombre de lignes attendu
+
+Génère au minimum les quantités suivantes :
+
+| Table | Nombre de lignes |
+|---|---:|
+| JOUEUR | 5 |
+| EQUIPE | 4 |
+| ENTRAINEUR | 3 |
+| TERRAIN | 4 |
+| SAISON | 2 |
+| COMPETITION | 4 |
+| CONTRAT | 5 |
+| APPARTENIR | 5 |
+| ENCADRER | 3 |
+| CONCERNER | 8 |
+| PARTICIPER_COMPETITION | 4 |
+| MATCH_FOOTBALL | 4 |
+| A_DOMICILE | 4 |
+| PARTICIPATION | 5 |
+| SEANCE_ENTRAINEMENT | 4 |
+
+## 3. Clés étrangères et intégrité référentielle
+
+Respecte obligatoirement les correspondances suivantes :
+
+- CONTRAT.id_joueur → JOUEUR.id_joueur
+- APPARTENIR.id_joueur → JOUEUR.id_joueur
+- APPARTENIR.id_equipe → EQUIPE.id_equipe
+- ENCADRER.id_entraineur → ENTRAINEUR.id_entraineur
+- ENCADRER.id_equipe → EQUIPE.id_equipe
+- CONCERNER.id_equipe → EQUIPE.id_equipe
+- CONCERNER.id_saison → SAISON.id_saison
+- PARTICIPER_COMPETITION.id_equipe → EQUIPE.id_equipe
+- PARTICIPER_COMPETITION.id_competition → COMPETITION.id_competition
+- MATCH_FOOTBALL.id_equipe → EQUIPE.id_equipe
+- MATCH_FOOTBALL.id_competition → COMPETITION.id_competition
+- MATCH_FOOTBALL.id_terrain → TERRAIN.id_terrain
+- A_DOMICILE.id_equipe → EQUIPE.id_equipe
+- A_DOMICILE.id_match → MATCH_FOOTBALL.id_match
+- PARTICIPATION.id_match → MATCH_FOOTBALL.id_match
+- PARTICIPATION.id_joueur → JOUEUR.id_joueur
+- SEANCE_ENTRAINEMENT.id_terrain → TERRAIN.id_terrain
+- SEANCE_ENTRAINEMENT.id_entraineur → ENTRAINEUR.id_entraineur
+- SEANCE_ENTRAINEMENT.id_equipe → EQUIPE.id_equipe
+
+Toutes les valeurs des clés étrangères doivent correspondre à des clés primaires existantes.
+
+## 4. Contraintes de validation à respecter
+
+- `duree_minutes > 0`
+- `salaire_mensuel > 0`
+- `temps_jeu BETWEEN 0 AND 120`
+- `nombre_buts >= 0`
+- `cartons_jaunes BETWEEN 0 AND 2`
+- `score_domicile >= 0 AND score_exterieur >= 0`
+- `date_fin >= date_debut`
+- `date_fin_contrat >= date_debut_contrat`
+- `date_fin_affectation >= date_debut_affectation`
+
+## 5. Consignes de génération
+
+- Générer des données fictives, réalistes et cohérentes avec le football professionnel.
+- Utiliser des clubs, joueurs, entraîneurs et compétitions crédibles.
+- Respecter les types de données et les formats SQL.
+- Respecter l'ordre d'insertion pour éviter les erreurs de clés étrangères.
+- Éviter les doublons de clés primaires et de clés primaires composées.
+- Respecter toutes les contraintes d'intégrité.
+- Utiliser des dates cohérentes entre les saisons, contrats, matchs et entraînements.
+- Faire correspondre les joueurs aux équipes et les entraîneurs aux équipes.
+- Ne pas inventer de colonnes supplémentaires.
+- Ne pas modifier la structure de la base de données.
+
+## 6. Format de sortie
+
+Le script doit :
+
 - Commencer par `USE club_football;`.
-- Fournir uniquement le script SQL, avec des commentaires pour identifier chaque table.
+- Utiliser uniquement des instructions `INSERT INTO`.
+- Insérer les données dans les 15 tables.
+- Contenir des commentaires identifiant chaque table.
+- Être directement exécutable dans MySQL Workbench.
+- Être enregistré sous le nom `3_insertion.sql`.
+
+Fournis uniquement le script SQL complet.

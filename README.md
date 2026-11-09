@@ -142,3 +142,6 @@ Le plan d'exécution montre :
 - **Index lookup :** MySQL utilise la clé primaire de JOUEUR pour retrouver les joueurs.
 
 Ce plan permet de comprendre comment MySQL organise l'exécution de la requête.
+## 9. Vidéo de présentation
+
+[▶ Voir la vidéo complète du projet ING1 NEW1](Presentation_ING1NEW1_finale_avec_conclusions.mp4)
